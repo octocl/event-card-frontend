@@ -1,0 +1,10 @@
+{
+  "name": "eventcard-editor",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "python3 -m http.server 4300",
+    "check": "node --check src/catalog.js && node --check src/draw.js && node --check src/app.js"
+  }
+}

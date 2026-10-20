@@ -1,0 +1,71 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="theme-color" content="#eeeeee" />
+  <meta name="description" content="Make your EventCard invitation and preview it as you edit." />
+  <title>Make your invitation — EventCard</title>
+  <link rel="icon" href="/assets/eventcard-mark.png" type="image/png" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700&family=Playfair+Display:ital,wght@0,400;0,500;0,600;1,400;1,500&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="/styles.css" />
+  <script type="module" src="/src/app.js"></script>
+</head>
+<body data-page="editor">
+  <a class="skip-link" href="#main">Skip to content</a>
+  <header class="site-header"><div class="shell header-inner">
+    <a href="https://eventcard.cc/" class="brand" aria-label="EventCard home"><img src="/assets/eventcard-logo.png" alt="EventCard" /></a>
+    <span class="header-note">YOUR INVITATION</span>
+    <a class="header-link" href="/">All designs</a>
+  </div></header>
+  <main id="main" class="editor-layout">
+    <section class="editor-pane" aria-label="Invitation editor"><div class="editor-inner">
+      <div class="editor-intro"><p class="eyebrow">MAKE IT YOURS</p><h1>Your invitation.</h1><p>Start with the details. You can change the design without losing your words.</p></div>
+      <div class="step-tabs" role="tablist" aria-label="Editor steps">
+        <button type="button" role="tab" aria-selected="true" aria-controls="step-details" id="tab-details" data-step="details">Details</button>
+        <button type="button" role="tab" aria-selected="false" aria-controls="step-design" id="tab-design" data-step="design">Design</button>
+        <button type="button" role="tab" aria-selected="false" aria-controls="step-extras" id="tab-extras" data-step="extras">Extras</button>
+        <button type="button" role="tab" aria-selected="false" aria-controls="step-finish" id="tab-finish" data-step="finish">Finish</button>
+      </div>
+      <form id="invitation-form">
+        <section class="step-panel" id="step-details" role="tabpanel" aria-labelledby="tab-details">
+          <h2>The essentials</h2>
+          <div class="form-fields">
+            <label>Occasion<select name="occasion" id="occasion"><option value="wedding">Wedding</option><option value="birthday">Birthday</option></select></label>
+            <div class="two-fields"><label><span id="first-name-label">Your name</span><input name="firstName" maxlength="60" placeholder="Amira" required /></label><label id="second-name-field">Partner’s name<input name="secondName" maxlength="60" placeholder="Daniel" /></label><label id="age-field" hidden>Age or milestone <span class="optional">optional</span><input name="age" maxlength="20" placeholder="30th" /></label></div>
+            <div class="two-fields"><label>Date<input type="date" name="date" required /></label><label>Time<input type="time" name="time" required /></label></div>
+            <label>Venue<input name="venue" maxlength="100" placeholder="The Glasshouse Garden" /></label>
+            <label>Address<input name="address" maxlength="160" placeholder="Street and city" /></label>
+            <label>Personal message<textarea name="message" maxlength="500" rows="3" placeholder="We would love you to celebrate with us."></textarea></label>
+          </div>
+        </section>
+        <section class="step-panel" id="step-design" role="tabpanel" aria-labelledby="tab-design" hidden>
+          <h2>Choose your look</h2><p class="panel-help">Switch at any time. Your event details will stay in place.</p>
+          <div id="editor-template-grid" class="editor-template-grid" role="radiogroup" aria-label="Invitation design"></div>
+          <div class="upload-block"><label for="photo-upload">Add a photo <span class="optional">optional</span></label><p class="panel-help">JPG, PNG, or WebP, up to 5 MB. Your photo appears on the cover.</p><input id="photo-upload" type="file" accept="image/jpeg,image/png,image/webp" /><button type="button" id="remove-photo" class="text-action" hidden>Remove photo</button><p id="photo-status" class="status" role="status"></p></div>
+        </section>
+        <section class="step-panel" id="step-extras" role="tabpanel" aria-labelledby="tab-extras" hidden>
+          <h2>The little details</h2><p class="panel-help">Add the information your guests will need.</p>
+          <div class="form-fields">
+            <label>Dress code <span class="optional">optional</span><input name="dressCode" maxlength="100" placeholder="Garden formal" /></label>
+            <label>Map link <span class="optional">optional</span><input name="mapsUrl" type="url" maxlength="2048" placeholder="https://maps.app.goo.gl/..." /></label>
+            <label class="check-row"><input type="checkbox" name="showCountdown" checked />Show a countdown</label>
+            <label class="check-row"><input type="checkbox" name="showSchedule" checked />Show a short schedule</label>
+            <div id="schedule-fields" class="schedule-fields"><h3>Schedule</h3><div class="two-fields"><label>First time<input name="scheduleTime1" type="time" /></label><label>First event<input name="scheduleTitle1" maxlength="60" placeholder="Guest arrival" /></label></div><div class="two-fields"><label>Second time<input name="scheduleTime2" type="time" /></label><label>Second event<input name="scheduleTitle2" maxlength="60" placeholder="Celebration begins" /></label></div></div>
+          </div>
+        </section>
+        <section class="step-panel" id="step-finish" role="tabpanel" aria-labelledby="tab-finish" hidden>
+          <h2>Ready to see it?</h2><p class="panel-help">Open a larger preview or save an image of your design. Your draft stays in this browser.</p>
+          <div class="finish-actions"><button type="button" class="button button-dark" id="full-preview">Full preview</button><button type="button" class="button button-rose" id="download-png">Download image</button><button type="button" class="button button-outline" id="download-html">Download webpage</button></div>
+          <p class="launch-note">Hosted sharing and account checkout are coming with the full EventCard app.</p>
+        </section>
+        <div class="editor-bottom"><span id="save-status" role="status">Draft saved in this browser</span><button class="button button-rose" id="next-step" type="button">Continue</button></div>
+      </form>
+    </div></section>
+    <aside class="preview-pane" aria-label="Live invitation preview"><div class="preview-toolbar"><div><span class="live-dot"></span><strong>Live preview</strong></div><span id="preview-template-name"></span></div><div class="preview-scroll"><canvas id="invitation-canvas" width="720" height="1020" role="img" aria-label="Invitation design preview"></canvas><div class="preview-details" id="preview-details"></div></div></aside>
+  </main>
+  <dialog id="preview-dialog" class="preview-dialog"><div class="dialog-bar"><strong>Invitation preview</strong><button type="button" id="close-preview" class="text-action">Close</button></div><div id="dialog-content"></div></dialog>
+</body>
+</html>
