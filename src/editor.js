@@ -21,6 +21,11 @@ function download(blob,name){const url=URL.createObjectURL(blob),anchor=document
 export function initEditor(){
   const params=new URLSearchParams(location.search),saved=storedDraft();
   const draft={...defaultDraft(),...saved};
+  if(!Array.isArray(saved.scheduleEvents)&&'showSchedule' in saved){
+    draft.schedule=Boolean(saved.showSchedule);
+    draft.scheduleEvents=[1,2].map(number=>({id:'legacy-'+number,time:saved['scheduleTime'+number]||'',title:saved['scheduleTitle'+number]||'',icon:number===1?'welcome':'celebrate'})).filter(item=>item.time&&item.title);
+  }
+  if('showCountdown' in saved)draft.countdown=Boolean(saved.showCountdown);
   if(params.has('template'))draft.template=getTemplate(params.get('template')).id;
   if(['wedding','birthday'].includes(params.get('occasion')))draft.occasion=params.get('occasion');
   if(!Array.isArray(draft.scheduleEvents))draft.scheduleEvents=defaultDraft().scheduleEvents;

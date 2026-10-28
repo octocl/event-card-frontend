@@ -21,10 +21,7 @@ export const defaultDraft = () => ({
   venue: '', address: '', message: '', dressCode: '', mapsUrl: '',
   guestName: '', tableNumber: '', rsvpEmail: '', wishes: '', venueType: 'restaurant',
   rsvp: true, calendar: true, countdown: true, location: true, schedule: true,
-  scheduleEvents: [
-    { id: 'arrival', time: '17:00', title: 'Guest arrival', icon: 'welcome' },
-    { id: 'celebration', time: '18:00', title: 'Celebration begins', icon: 'celebrate' },
-  ],
+  scheduleEvents: [],
   photo: '', opening: 'envelope', musicMode: 'off', musicVolume: 30,
   linkPreviewMode: 'envelope', linkPreviewStyle: 'ivory', linkPreviewImage: '',
   linkPreviewTitle: '', linkPreviewDescription: '', language: 'en',

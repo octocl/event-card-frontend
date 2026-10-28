@@ -16,9 +16,11 @@ function icsUrl(draft){
   const date=draft.date.replace(/-/g,''),time=(draft.time||'12:00').replace(':','')+'00';
   const endMinutes=Number((draft.time||'12:00').slice(0,2))*60+Number((draft.time||'12:00').slice(3))+180;
   const end=String(Math.floor(endMinutes/60)%24).padStart(2,'0')+String(endMinutes%60).padStart(2,'0')+'00';
+  const endDate=new Date(draft.date+'T12:00:00Z');if(endMinutes>=1440)endDate.setUTCDate(endDate.getUTCDate()+1);
+  const endDay=endDate.toISOString().slice(0,10).replace(/-/g,'');
   const title=(draft.occasion==='birthday'?'Birthday celebration: ':'Wedding: ')+(draft.firstName||'EventCard')+(draft.occasion==='wedding'&&draft.secondName?' & '+draft.secondName:'');
   const clean=value=>String(value||'').replace(/[\r\n,;]/g,' ').slice(0,180);
-  const calendar=['BEGIN:VCALENDAR','VERSION:2.0','PRODID:-//EventCard//Invitation//EN','BEGIN:VEVENT','UID:'+crypto.randomUUID()+'@eventcard.cc','DTSTART;TZID=Asia/Tashkent:'+date+'T'+time,'DTEND;TZID=Asia/Tashkent:'+date+'T'+end,'SUMMARY:'+clean(title),'LOCATION:'+clean([draft.venue,draft.address].filter(Boolean).join(', ')),'DESCRIPTION:'+clean(draft.message),'END:VEVENT','END:VCALENDAR'].join('\r\n');
+  const calendar=['BEGIN:VCALENDAR','VERSION:2.0','PRODID:-//EventCard//Invitation//EN','BEGIN:VEVENT','UID:'+crypto.randomUUID()+'@eventcard.cc','DTSTART;TZID=Asia/Tashkent:'+date+'T'+time,'DTEND;TZID=Asia/Tashkent:'+endDay+'T'+end,'SUMMARY:'+clean(title),'LOCATION:'+clean([draft.venue,draft.address].filter(Boolean).join(', ')),'DESCRIPTION:'+clean(draft.message),'END:VEVENT','END:VCALENDAR'].join('\r\n');
   return 'data:text/calendar;charset=utf-8,'+encodeURIComponent(calendar);
 }
 export function detailsMarkup(draft){
