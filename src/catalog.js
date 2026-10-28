@@ -19,8 +19,13 @@ export const defaultDraft = () => ({
   occasion: 'wedding', template: templates[0].id,
   firstName: '', secondName: '', age: '', date: '', time: '',
   venue: '', address: '', message: '', dressCode: '', mapsUrl: '',
-  showCountdown: true, showSchedule: true,
-  scheduleTime1: '17:00', scheduleTitle1: 'Guest arrival',
-  scheduleTime2: '18:00', scheduleTitle2: 'Celebration begins',
-  photo: '',
+  guestName: '', tableNumber: '', rsvpEmail: '', wishes: '', venueType: 'restaurant',
+  rsvp: true, calendar: true, countdown: true, location: true, schedule: true,
+  scheduleEvents: [
+    { id: 'arrival', time: '17:00', title: 'Guest arrival', icon: 'welcome' },
+    { id: 'celebration', time: '18:00', title: 'Celebration begins', icon: 'celebrate' },
+  ],
+  photo: '', opening: 'envelope', musicMode: 'off', musicVolume: 30,
+  linkPreviewMode: 'envelope', linkPreviewStyle: 'ivory', linkPreviewImage: '',
+  linkPreviewTitle: '', linkPreviewDescription: '', language: 'en',
 });

@@ -124,10 +124,11 @@ function coverPhoto(ctx, image, t) {
   ellipse(ctx,360,626,120,120,t.accent,true,3);
   return true;
 }
-function displayDate(value) {
-  if (!value) return 'A DATE TO REMEMBER';
+function displayDate(value, language='en') {
+  const unknown={en:'A DATE TO REMEMBER',ru:'ДАТА БУДЕТ ОБЪЯВЛЕНА',uz:'SANA TEZ ORADA'};
+  if (!value) return unknown[language]||unknown.en;
   const date=new Date(`${value}T12:00:00`);
-  return Number.isNaN(date.getTime())?'A DATE TO REMEMBER':new Intl.DateTimeFormat('en',{day:'numeric',month:'long',year:'numeric'}).format(date).toUpperCase();
+  return Number.isNaN(date.getTime())?(unknown[language]||unknown.en):new Intl.DateTimeFormat(language==='ru'?'ru-RU':language==='uz'?'uz-UZ':'en-US',{day:'numeric',month:'long',year:'numeric'}).format(date).toUpperCase();
 }
 export function drawInvitation(canvas,draft,{photoImage=null,scale=1}={}) {
   const t=getTemplate(draft.template);
@@ -137,12 +138,13 @@ export function drawInvitation(canvas,draft,{photoImage=null,scale=1}={}) {
   const birthday=draft.occasion==='birthday';
   const first=(draft.firstName|| (birthday?'Your name':'Your name')).trim();
   const second=(draft.secondName||'Their name').trim();
-  const heading=birthday?'YOU ARE INVITED TO CELEBRATE':'TOGETHER WITH THEIR FAMILIES';
+  const copy={en:{birthday:'YOU ARE INVITED TO CELEBRATE',wedding:'TOGETHER WITH THEIR FAMILIES',celebrate:'Celebrate',birthdayLabel:'BIRTHDAY',venue:'VENUE TO BE ANNOUNCED'},ru:{birthday:'ПРИГЛАШАЕМ НА ПРАЗДНИК',wedding:'ВМЕСТЕ СО СВОИМИ СЕМЬЯМИ',celebrate:'Празднуем',birthdayLabel:'ДЕНЬ РОЖДЕНИЯ',venue:'МЕСТО УТОЧНЯЕТСЯ'},uz:{birthday:'BAYRAMGA TAKLIF QILAMIZ',wedding:'OILALARI BILAN BIRGA',celebrate:'Bayram',birthdayLabel:'TUG‘ILGAN KUN',venue:'MANZIL TEZ ORADA'}}[draft.language]||{birthday:'YOU ARE INVITED TO CELEBRATE',wedding:'TOGETHER WITH THEIR FAMILIES',celebrate:'Celebrate',birthdayLabel:'BIRTHDAY',venue:'VENUE TO BE ANNOUNCED'};
+  const heading=birthday?copy.birthday:copy.wedding;
   caps(ctx,heading,360,230,t.accent,{size:12});
   if(birthday) {
-    text(ctx,'Celebrate',360,315,55,t.ink,{italic:true});
+    text(ctx,copy.celebrate,360,315,55,t.ink,{italic:true});
     text(ctx,first,360,402,82,t.ink);
-    if(draft.age) caps(ctx,`${draft.age} BIRTHDAY`,360,468,t.accent,{size:14});
+    if(draft.age) caps(ctx,`${draft.age} ${copy.birthdayLabel}`,360,468,t.accent,{size:14});
   } else {
     text(ctx,first,360,332,83,t.ink);
     text(ctx,'&',360,401,52,t.accent,{italic:true});
@@ -154,8 +156,8 @@ export function drawInvitation(canvas,draft,{photoImage=null,scale=1}={}) {
     diamond(ctx,360,642,16,t.accent);
     line(ctx,304,690,416,690,t.accent,2);
   }
-  caps(ctx,displayDate(draft.date),360,793,t.accent,{size:16,spacing:3});
-  const venue=(draft.venue||'VENUE TO BE ANNOUNCED').trim();
+  caps(ctx,displayDate(draft.date,draft.language),360,793,t.accent,{size:16,spacing:3});
+  const venue=(draft.venue||copy.venue).trim();
   text(ctx,venue,360,835,26,t.ink,{family:sans,weight:600,max:500});
   if(draft.time) caps(ctx,draft.time,360,871,t.ink,{size:12});
   caps(ctx,'EVENTCARD',360,946,t.accent,{size:12,spacing:5});
